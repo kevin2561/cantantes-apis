@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -59,17 +62,29 @@ public class CantantesController {
             return ResponseEntity.status(401).body("Token invalido o expirado");
 
         }
-        Optional<Cantante> cantanteOPT= cantantesRepository.findById(idCantante); 
+        Optional<Cantante> cantanteOPT = cantantesRepository.findById(idCantante);
         if (cantanteOPT.isPresent()) {
             return ResponseEntity.ok(cantanteOPT.get());
 
-            
-        }else{
+        } else {
             return ResponseEntity.status(404).body("Cantante no existe");
 
         }
 
+    }
 
+    @GetMapping("/get-pagination")
+    public ResponseEntity<?> getPagination(@RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "100") int size) {
+
+        Pageable pageble = PageRequest.of(page, size);
+        Page<Cantante> paginados = cantantesRepository.findAll(pageble);
+        System.out.println(paginados.getTotalPages()); // 10
+        System.out.println(paginados.getNumber()); // página actual (ej: 2)
+        System.out.println(paginados.getContent()); // lista de cantantes de esa página
+        System.out.println(paginados.getTotalElements()); // total de registros (100)
+
+        return ResponseEntity.ok(paginados);
     }
 
     @PostMapping("/post")
