@@ -98,6 +98,14 @@ public class Cantante {
         return generoMusical;
     }
 
+    public Genero getGenero() {
+        return genero;
+    }
+
+    public void setGenero(Genero genero) {
+        this.genero = genero;
+    }
+
     public void setGeneroMusical(String generoMusical) {
         this.generoMusical = generoMusical;
     }
