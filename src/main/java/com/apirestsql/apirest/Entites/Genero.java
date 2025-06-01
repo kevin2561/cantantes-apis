@@ -1,10 +1,13 @@
 package com.apirestsql.apirest.Entites;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -20,6 +23,9 @@ public class Genero {
 
     @Column(name = "descripcion")
     private String descripcion;
+
+    @OneToMany(mappedBy = "genero")
+    private List<Cantante> cantantes;
 
     public Long getIdGenero() {
         return idGenero;
